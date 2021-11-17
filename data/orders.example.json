@@ -1,0 +1,38 @@
+{
+    "2e280523-8dcb-40f6-bab7-7446fab054dd": {
+        "incrementor": "1",
+        "name": "John Doe",
+        "pizzas": {
+            "1": {
+                "size": "small",
+                "toppings": [
+                    "pepperoni",
+                    "mushrooms"
+                ]
+            },
+            "2": {
+                "size": "large",
+                "toppings": [
+                    "pepperoni",
+                    "mushrooms",
+                    "anchovies",
+                    "bacon"
+                ]
+            }
+        }
+    },
+    "00000000-0000-0000-0000-000000000000": {
+        "incrementor": "int, numerical incrementor",
+        "name": "string name",
+        "pizzas": {
+            "incrementor to identify a pizza": {
+                "size": "a size in the range of small-large",
+                "toppings": [
+                    "a topping",
+                    "another topping, this can keep going"
+                ]
+            }
+        },
+        "_comment": "Schema example, this field takes a string, internally used comment, optional"
+    }
+}

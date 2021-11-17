@@ -1,0 +1,22 @@
+{
+    "parlorName" : "Unnamed Pizza Place",
+    "taxRate" : 6,
+    "deliveryFee" : 5,
+    "sizeCosts" : {
+        "small" : 6,
+        "medium" : 8,
+        "large" : 10
+    },
+    "toppings<=3" : 1.50,
+    "toppings>=4" : 1.00,
+    "toppings" : [
+        "pepperoni",
+        "anchovies",
+        "sausage",
+        "mushrooms",
+        "onions",
+        "green peppers",
+        "pineapple",
+        "olives"
+    ]
+}
