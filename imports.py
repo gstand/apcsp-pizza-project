@@ -1,3 +1,5 @@
+# This document solely exists as a template for all imports used throughout the project and to allow loading of all dependencies on a Python shell if need be.
+
 import json
 import sys
 import os

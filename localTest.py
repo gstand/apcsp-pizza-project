@@ -1,3 +1,5 @@
+# This file serves as a sandbox file for testing code from a file execution context.
+
 import json
 import sys
 import os
