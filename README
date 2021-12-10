@@ -1,6 +1,4 @@
-NOTE: not currently functioning as of 17 November 2021, some modules still require implementation
-
-Pizza Ordering Program - AP Computer Science Principals
+Pizza Ordering Program - AP Computer Science Principles
 Written by Garret Stand
 Licensed under the MIT license for academic use.
 
@@ -8,3 +6,13 @@ Prerequisites for running locally:
 
 Python 3 (developed targeting Python 3.10)
 The entire directory structure unmodified
+fpdf and argparse libraries
+
+Simply run from main.py, all other python files are libraries and will not run.
+Order database is present in data/order.json and configuration data for the program is present at data/config.json. All files have a equivalent file suffixed with "example" that contains known good example values. You may also reset these files using the integrated debug menu.
+
+Run the program with -h for invocation and argument examples.
+
+Enjoy :)
+
+greetz to bart

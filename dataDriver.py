@@ -52,7 +52,7 @@ def __listOrders(orders):
         out.printDebug(order + " contains: ")
         out.printDebug(indent + "Incrementor: " + orders[str(order)]["incrementor"])
         out.printDebug(indent + "Name: " + orders[str(order)]["name"])
-        out.printDebug(indent + "Address: " + orders[str(order)]["address"])
+        out.printDebug(indent + "Address: " + orders[str(order)]["address"]) if orders[str(order)]["address"] != None else out.printDebug(indent + "Address: None")
         out.printDebug(indent + "Time registered: " + str(orders[str(order)]["time"]))
         out.printDebug(indent + "Pizzas: ")
         for pizza in orders[str(order)]["pizzas"]:
@@ -63,7 +63,7 @@ def __listOrders(orders):
                 out.printDebug(indent + indent + indent + topping)
         out.printDebug(indent + "Delivery?: " + str(orders[str(order)]["delivered"]))
         out.printDebug(indent + "Delivery tip: " + str(orders[str(order)]["deliveryTip"])) if orders[str(order)]["deliveryTip"] != None and orders[str(order)]["delivered"] == True else None
-        if "_comment" in orders[str(order)]: # if the order has a comment, print it
+        if "_comment" in orders[str(order)] and orders[str(order)]["_comment"] != None: # if the order has a comment, print it
             out.printDebug(indent + "Comment: " + orders[str(order)]["_comment"])
 
 def writeOrder(orders, name, pizzas, delivery=False, address=None, deliveryTip=None, comment=None):
@@ -86,8 +86,11 @@ def writeOrder(orders, name, pizzas, delivery=False, address=None, deliveryTip=N
     if address != None and delivery == True:
         order[orderUUID]["address"] = address
     else:
-        order[orderUUID]["address"] = None
-    order[orderUUID]["_comment"] = comment
+        order[orderUUID]["address"] = ""
+    if comment != None:
+        order[orderUUID]["_comment"] = comment
+    else:
+        order[orderUUID]["_comment"] = ""
     orders.update(order) # update the orders list with the new order
     with open(dir_path + '/data/orders.json', 'w') as f: f.write(json.dumps(orders, indent=4)) # write the new orders list to the orders.json file
     return orderUUID

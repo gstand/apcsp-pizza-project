@@ -153,10 +153,10 @@ def generateReceipt(order):
         else:
             for i in range(len(order["pizzas"][pizza]["toppings"])):
                 price = price + float(configData["toppings<=3"])
-        line = "   Pizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with " + "cheese, " + str(order["pizzas"][pizza]["toppings"])[1:len(str(order["pizzas"][pizza]["toppings"]))-1].replace("'", "") + " | $" + "{:.2f}".format(price) if order["pizzas"][pizza]["toppings"] != [''] else "   Pizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with cheese | $" + "{:.2f}".format(price)
+        line = "Pizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with " + "cheese, " + str(order["pizzas"][pizza]["toppings"])[1:len(str(order["pizzas"][pizza]["toppings"]))-1].replace("'", "") + " | $" + "{:.2f}".format(price) if order["pizzas"][pizza]["toppings"] != [''] else "Pizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with cheese | $" + "{:.2f}".format(price)
         receipt.cell(200, 10, txt=line, ln=1, align="L")
         subTotal = subTotal + price
-    receipt.cell(200, 10, txt="Subtotal: $" + str(subTotal), ln=1, align="L")
+    receipt.cell(200, 10, txt="Subtotal: $" + "{:.2f}".format(subTotal), ln=1, align="L")
     tax = subTotal * float(configData["taxRate"]/100)
     receipt.cell(200, 10, txt="Tax: $" + "{:.2f}".format(tax), ln=1, align="L")
     total = subTotal + tax
@@ -183,8 +183,7 @@ def generateReceipt(order):
         receipt.cell(200, 10, txt="Delivery: No", ln=1, align="L")
         receipt.cell(200, 10, txt="Address: 123 Parlor St. for pickup", ln=1, align="L")
     receipt.cell(200, 10, txt="--", ln=1, align="C")
-    receipt.cell(200, 10, txt="Thank you for your order!", ln=1, align="L")
+    receipt.cell(200, 10, txt="Thank you for your order!", ln=1, align="C")
     receipt.output("receipt.pdf")
     print("Receipt generated! Openining in system default PDF viewer...")
-    input()
     subprocess.Popen(["open receipt.pdf"], shell=True) # macOS now at the moment, time constratints :/

@@ -135,6 +135,7 @@ def newOrder():
                 print("Please enter the size of the pizza " + out.dim + "[S/m/l/prices]" + out.reset + ": " + pizzaInput)
                 continue
             if pizzaToppings == ['']: 
+                pizzaToppings = []
                 selected = True
             elif conflicts != []:
                 out.printError("Invalid input. Please select toppings listed using the following: " + str(configData["toppings"])[1:len(str(configData["toppings"]))-1].replace("'", ""))
@@ -172,6 +173,9 @@ def newOrder():
             tip = float(input())
         else:
             tip = None
+    else:
+        address = None
+        tip = 0
     if args.debugFlag == True:
         out.clear()
         print(out.bold + "Create a new order" + out.reset + " - " + parlorName + " Ordering System")
@@ -182,13 +186,15 @@ def newOrder():
             comment = str(input())
         else:
             comment = None
+    else:
+        comment = None
     out.clear() 
     print(out.bold + "Create a new order" + out.reset + " - " + parlorName + " Ordering System")
     print("Order processed successfully! Summary:")
     print("Name: " + out.bold + orderName + out.reset)
     print("Pizzas:")
     for pizza in pizzas:
-        print("\t" + pizza + ": " + pizzas[pizza]["size"] + " pizza with " + "cheese, " + str(pizzas[pizza]["toppings"])[1:len(str(pizzas[pizza]["toppings"]))-1].replace("'", "")) if pizzas[pizza]["toppings"] != [''] else print("\t" + pizza + ": " + pizzas[pizza]["size"] + " pizza with cheese")
+        print("\t" + pizza + ": " + pizzas[pizza]["size"] + " pizza with " + "cheese, " + str(pizzas[pizza]["toppings"])[1:len(str(pizzas[pizza]["toppings"]))-1].replace("'", "")) if pizzas[pizza]["toppings"] != [] else print("\t" + pizza + ": " + pizzas[pizza]["size"] + " pizza with cheese")
     print("The order will be delivered.") if delivery == True else print("The order will be picked up.")
     if delivery == True:
         print("The order will be delivered to " + out.bold + address + out.reset + ".")
@@ -223,9 +229,12 @@ def newOrder():
             for i in range(len(pizzas[pizza]["toppings"]) - 3):
                 price = price + float(configData["toppings>=4"])
         else:
-            for i in range(len(pizzas[pizza]["toppings"])):
-                price = price + float(configData["toppings<=3"])
-        print("\tPizza " + pizza + ": " + pizzas[pizza]["size"] + " pizza with " + ", ".join(pizzas[pizza]["toppings"]) + " - " + out.bold + "$" + "{:.2f}".format(price) + out.reset)
+            if pizzas[pizza]["toppings"] == []:
+                None
+            else:
+                for i in range(len(pizzas[pizza]["toppings"])):
+                    price = price + float(configData["toppings<=3"])
+        print("\tPizza " + pizza + ": " + pizzas[pizza]["size"] + " pizza with " + "cheese, " + str(pizzas[pizza]["toppings"])[1:len(str(pizzas[pizza]["toppings"]))-1].replace("'", "") + " -- " + out.bold + "$" + "{:.2f}".format(price) + out.reset) if pizzas[pizza]["toppings"] != [] else print("\tPizza " + pizza + ": " + pizzas[pizza]["size"] + " pizza with cheese -- " + out.bold + "$" + "{:.2f}".format(price) + out.reset)
         subTotal = subTotal + price
     print()
     print("Subtotal: " + out.bold + "$" + "{:.2f}".format(subTotal) + out.reset)
@@ -256,7 +265,7 @@ def newOrder():
     newOrderObject = dataDriver.loadOrders()[orderUUID]
     out.clear()
     print(out.bold + "Create a new order" + out.reset + " - " + parlorName + " Ordering System")
-    print(out.green + "Order placed!" + out.reset + " Would you like a receipt?" + out.dim + "[Y/n]" + out.reset + ": ", end='')
+    print(out.green + "Order placed!" + out.reset + " Would you like a receipt? " + out.dim + "[Y/n]" + out.reset + ": ", end='')
     decision = str(input()).lower()
     if decision == "n":
         out.clear()
@@ -294,7 +303,10 @@ def viewOrder(order):
         else:
             for i in range(len(order["pizzas"][pizza]["toppings"])):
                 price = price + float(configData["toppings<=3"])
-        print("\tPizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with " + ", ".join(order["pizzas"][pizza]["toppings"]) + " - " + out.bold + "$" + "{:.2f}".format(price) + out.reset)
+        if order["pizzas"][pizza]["toppings"] != []:
+            print("\tPizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with " + "cheese, " + str(order["pizzas"][pizza]["toppings"])[1:len(str(order["pizzas"][pizza]["toppings"]))-1].replace("'", "") + " -- " + out.bold + "$" + "{:.2f}".format(price) + out.reset) 
+        elif order["pizzas"][pizza]["toppings"] == []:
+             print("\tPizza " + pizza + ": " + order["pizzas"][pizza]["size"] + " pizza with cheese -- " + out.bold + "$" + "{:.2f}".format(price) + out.reset)
         subTotal = subTotal + price
     print()
     print("Subtotal: " + out.bold + "$" + "{:.2f}".format(subTotal) + out.reset)
@@ -306,7 +318,7 @@ def viewOrder(order):
     if order["delivered"] == True:
         price = float(configData["deliveryFee"])
         print("Delivery fee: " + out.bold + "$" + "{:.2f}".format(price) + out.reset)
-        if tip != None:
+        if order["deliveryTip"] != None:
             price = price + order["deliveryTip"]
             print("Tip: " + out.bold + "$" + "{:.2f}".format(order["deliveryTip"]) + out.reset)
         grandTotal = total + price
