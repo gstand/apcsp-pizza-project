@@ -79,10 +79,10 @@ def writeOrder(orders, name, pizzas, delivery=False, address=None, deliveryTip=N
     order[orderUUID]["time"] = timeRegistered
     order[orderUUID]["pizzas"] = pizzas
     order[orderUUID]["delivered"] = delivery
-    if deliveryTip >= 0 and delivery == True:
+    if deliveryTip != None and deliveryTip >= 0 and delivery == True:
         order[orderUUID]["deliveryTip"] = deliveryTip
     else:
-         order[orderUUID]["deliveryTip"] = None
+         order[orderUUID]["deliveryTip"] = 0
     if address != None and delivery == True:
         order[orderUUID]["address"] = address
     else:
